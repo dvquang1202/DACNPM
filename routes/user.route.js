@@ -5,6 +5,14 @@ const router = express.Router();
 
 //sign up
 router.post('/', async(req, res) => {
+
+    const check = await userModel.singleByUserName(req.body.username);
+    if (check.length > 0) {
+        return res.json({
+            message: 'username already exists',
+        })
+    }
+
     const result = await userModel.add(req.body);
 
     const ret = {
